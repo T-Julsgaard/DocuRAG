@@ -18,7 +18,7 @@ It ships with user accounts, per-user daily limits, an admin usage dashboard, an
 - **Self-hostable.** One Python process + SQLite. No vector database to run.
 - **Tunable without code.** Stop-words, synonyms, and category boosts live in one config file.
 
-> Best suited for **up to a few hundred articles**. Beyond that, you'd want a vector store — see [docs/SCALING.md](docs/SCALING.md).
+> Best suited for **up to a few hundred articles**. Beyond that, you'd want a vector store — see [guide/SCALING.md](guide/SCALING.md).
 
 ## Quick start
 
@@ -53,11 +53,11 @@ demo (a fictional product called *Nimbus*).
    ```bash
    python scripts/build_index.py
    ```
-   See [docs/AUTHORING.md](docs/AUTHORING.md) for the article format.
+   See [guide/AUTHORING.md](guide/AUTHORING.md) for the article format.
 3. **Assistant behaviour** — edit `knowledge_base/instructions.md` (the Ask-mode
    system prompt) for your product, tone, and answer language.
 4. **Search tuning** — edit `app/search_config.py` to teach the keyword engine
-   your synonyms and categories. See [docs/SEARCH_TUNING.md](docs/SEARCH_TUNING.md).
+   your synonyms and categories. See [guide/SEARCH_TUNING.md](guide/SEARCH_TUNING.md).
 
 ## How it works
 
@@ -87,15 +87,17 @@ demo (a fictional product called *Nimbus*).
 | `app/static/` | Frontend (vanilla JS, no build step) |
 | `knowledge_base/` | Your articles, the generated index, and the Ask prompt |
 | `scripts/build_index.py` | Regenerates `index.md` from your articles |
-| `docs/` | Setup, authoring, tuning, deployment, scaling guides |
+| `guide/` | Setup, authoring, tuning, deployment, scaling guides |
+| `preview/`, `scripts/build_preview.py` | Source for the static GitHub Pages demo |
+| `docs/` | Generated static demo site (built by `build_preview.py`) — do not edit by hand |
 
 ## Documentation
 
-- [docs/SETUP.md](docs/SETUP.md) — detailed setup and configuration
-- [docs/AUTHORING.md](docs/AUTHORING.md) — writing articles and the frontmatter format
-- [docs/SEARCH_TUNING.md](docs/SEARCH_TUNING.md) — tuning the keyword engine
-- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — exposing it to your team
-- [docs/SCALING.md](docs/SCALING.md) — when and how to grow past the embedded-index approach
+- [guide/SETUP.md](guide/SETUP.md) — detailed setup and configuration
+- [guide/AUTHORING.md](guide/AUTHORING.md) — writing articles and the frontmatter format
+- [guide/SEARCH_TUNING.md](guide/SEARCH_TUNING.md) — tuning the keyword engine
+- [guide/DEPLOYMENT.md](guide/DEPLOYMENT.md) — exposing it to your team
+- [guide/SCALING.md](guide/SCALING.md) — when and how to grow past the embedded-index approach
 
 ## Security notes
 
@@ -103,7 +105,7 @@ demo (a fictional product called *Nimbus*).
   credentials are git-ignored.
 - Auth is username/password sent per request — fine behind a tunnel for an
   internal team, but **put it behind HTTPS** (e.g. a Cloudflare Tunnel) before
-  exposing it. See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+  exposing it. See [guide/DEPLOYMENT.md](guide/DEPLOYMENT.md).
 
 ## License
 
