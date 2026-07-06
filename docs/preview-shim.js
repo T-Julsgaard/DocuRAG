@@ -298,10 +298,19 @@
       'text-transform:uppercase;color:#c96442;border:1px solid rgba(201,100,66,0.4);' +
       'background:rgba(201,100,66,0.08);padding:4px 9px;border-radius:6px;' +
       'pointer-events:none;user-select:none;}' +
-      '#docurag-demo-hint{margin-top:14px;font-family:"JetBrains Mono",monospace;' +
-      'font-size:11px;line-height:1.6;color:#8a8a8a;text-align:center;}' +
-      '#docurag-demo-hint b{color:#c9c9c9;font-weight:600;}' +
-      '#docurag-demo-hint .accent{color:#c96442;}';
+      '#docurag-demo-hint{margin-top:16px;font-family:"JetBrains Mono",monospace;' +
+      'font-size:11px;color:#8a8a8a;}' +
+      '#docurag-demo-hint .dh-title{text-align:center;margin-bottom:9px;color:#9a9a9a;}' +
+      '#docurag-demo-hint .dh-row{display:flex;justify-content:space-between;' +
+      'align-items:center;gap:18px;padding:5px 11px;' +
+      'border-top:1px solid rgba(255,255,255,0.07);}' +
+      '#docurag-demo-hint .dh-row:last-of-type{' +
+      'border-bottom:1px solid rgba(255,255,255,0.07);}' +
+      '#docurag-demo-hint .dh-role{color:#c9c9c9;font-weight:600;letter-spacing:0.04em;}' +
+      '#docurag-demo-hint .dh-role.accent{color:#c96442;}' +
+      '#docurag-demo-hint .dh-cred{color:#9a9a9a;letter-spacing:0.05em;}' +
+      '#docurag-demo-hint .dh-note{text-align:center;margin-top:9px;' +
+      'font-size:10px;color:#6a6a6a;}';
     document.head.appendChild(style);
 
     var badge = document.createElement('div');
@@ -315,9 +324,12 @@
       var hint = document.createElement('div');
       hint.id = 'docurag-demo-hint';
       hint.innerHTML =
-        'Demo preview — any login works.<br>' +
-        'User: <b>demo</b> / <b>demo</b> &nbsp;·&nbsp; ' +
-        'Admin: <b class="accent">admin</b> / <b class="accent">admin</b>';
+        '<div class="dh-title">Demo access — any credentials work</div>' +
+        '<div class="dh-row"><span class="dh-role">User</span>' +
+        '<span class="dh-cred">demo / demo</span></div>' +
+        '<div class="dh-row"><span class="dh-role accent">Admin</span>' +
+        '<span class="dh-cred">admin / admin</span></div>' +
+        '<div class="dh-note">Admin unlocks the analytics dashboard</div>';
       box.appendChild(hint);
     }
   }
