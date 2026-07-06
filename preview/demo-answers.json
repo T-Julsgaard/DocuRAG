@@ -1,0 +1,37 @@
+{
+  "answers": [
+    {
+      "keywords": ["password", "reset", "forgot", "forgotten", "sign in", "signin", "login", "log in", "locked out"],
+      "question": "How do I reset my password?",
+      "files_read": ["articles/Account/reset-your-password.md"],
+      "answer": "To reset a forgotten Nimbus password:\n\n1. On the sign-in page, click **Forgot password?**\n2. Enter your account email and submit.\n3. Open the reset email and click **Reset password** — the link is valid for **1 hour**.\n4. Choose a new password (**minimum 10 characters, with at least one number**).\n\nIf you're already signed in, go to **Settings → Security → Change password** (you'll need your current password).\n\n**If the reset email doesn't arrive:** check your spam folder, confirm the email matches the one on the account, and wait up to 5 minutes. Note that resetting your password does **not** sign out other devices — for that, use **Settings → Security → Sign out all sessions**."
+    },
+    {
+      "keywords": ["plan", "plans", "pricing", "price", "cost", "tier", "subscription", "storage", "how much", "free", "plus", "family", "business"],
+      "question": "What plans and pricing are available?",
+      "files_read": ["articles/Billing/plans-and-pricing.md"],
+      "answer": "Nimbus offers four plans:\n\n| Plan | Storage | Monthly | Yearly | Users |\n|---|---|---|---|---|\n| Free | 5 GB | $0 | $0 | 1 |\n| Plus | 2 TB | $9.99 | $99/yr | 1 |\n| Family | 6 TB | $19.99 | $199/yr | up to 5 |\n| Business | 5 TB/user | $15/user | $150/user/yr | 3+ |\n\n**What's included**\n- **Free** — basic sync & sharing, 30-day file history.\n- **Plus** — everything in Free plus 180-day history and larger uploads.\n- **Family** — Plus features for up to 5 people, each with a private space.\n- **Business** — admin console, audit log, and 365-day file history.\n\nUpgrades take effect immediately (prorated for the current period); downgrades apply at the next renewal date."
+    },
+    {
+      "keywords": ["2fa", "two factor", "two-factor", "mfa", "authenticator", "authentication", "recovery code", "security code", "otp"],
+      "question": "How do I enable two-factor authentication?",
+      "files_read": ["articles/Account/enable-two-factor-authentication.md"],
+      "answer": "To enable two-factor authentication (2FA):\n\n1. Open **Settings → Security → Two-factor authentication**.\n2. Click **Enable** and scan the QR code with an authenticator app (Google Authenticator, Authy, 1Password, etc.).\n3. Enter the 6-digit code to confirm.\n4. **Save the 10 recovery codes** shown on screen — each one works only once.\n\nIf you lose access to your authenticator, sign in using a **recovery code**. If you have no recovery codes left, the account owner must verify their identity by email before support can disable 2FA — this can take up to **2 business days**. Store recovery codes somewhere safe, not inside Nimbus itself."
+    },
+    {
+      "keywords": ["sync", "syncing", "not syncing", "won't sync", "stuck", "pending", "upload", "offline", "error code", "e-101", "e-204", "e-307", "e-500"],
+      "question": "My files aren't syncing — what should I do?",
+      "files_read": ["articles/Troubleshooting/files-not-syncing.md"],
+      "answer": "Work through these steps in order — most sync problems are fixed by step 3:\n\n1. **Check the connection** — the tray icon should show **Connected** (green).\n2. **Check storage** — a full account pauses uploads; free space or upgrade your plan.\n3. **Pause and resume sync** from the tray icon (wait ~10 seconds between). This clears most stuck transfers.\n4. **Check the file name** for blocked characters: `< > : \" / \\ | ? *`.\n5. **Restart the app** — fully quit Nimbus and reopen it.\n6. **Re-link the account** — Settings → Account → Unlink this device, then sign in again (no files are lost; they re-download from the cloud).\n\n**Common error codes:** `E-101` no connection · `E-204` storage full · `E-307` invalid file name · `E-500` server error (wait ~15 minutes and retry)."
+    },
+    {
+      "keywords": ["refund", "money back", "reimburse", "chargeback", "cancel charge"],
+      "question": "How do refunds work?",
+      "files_read": ["articles/Billing/request-a-refund.md"],
+      "answer": "Nimbus can issue a refund on a paid plan when the request falls within the eligibility window described in the refund policy. To process one, open the customer's billing record, confirm the charge is within the window, and submit the refund request from the billing panel.\n\n*(This preview ships with a short demo knowledge base — in a live deployment the assistant would quote the exact eligibility window and step-by-step process from your own refund article.)*"
+    }
+  ],
+  "fallback": {
+    "answer": "This is a **static preview** of DocuRAG running on GitHub Pages, so the live AI assistant isn't connected here. In a real deployment, **Ask** mode sends your question to Claude, which reads your organization's articles and answers with sources.\n\nThis preview ships with a small demo knowledge base (a fictional product called *Nimbus*). Try one of these to see a grounded answer:\n\n- *How do I reset my password?*\n- *What plans and pricing are available?*\n- *How do I enable two-factor authentication?*\n- *My files aren't syncing — what should I do?*\n\nOr switch to **Search** mode, which is fully live in this preview."
+  }
+}

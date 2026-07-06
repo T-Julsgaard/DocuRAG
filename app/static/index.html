@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocuRAG</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="stylesheet" href="/static/style.css?v=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- Login -->
+    <div id="login-screen">
+        <pre id="ascii-art" aria-label="app name"></pre>
+        <div id="login-tagline">secure access</div>
+
+        <button id="logout-btn" style="display:none">Log out</button>
+
+        <!-- Step 1: Login box -->
+        <div id="login-box" style="display:none">
+            <input type="text" id="username-input" placeholder="Username" autocomplete="username" />
+            <input type="password" id="password-input" placeholder="Password" autocomplete="current-password" />
+            <button id="login-btn">Log in</button>
+            <div id="login-error"></div>
+        </div>
+
+        <!-- Step 2: Mode select -->
+        <div id="mode-select" style="display:none">
+            <div class="mode-card" id="mode-card-search">
+                <div class="mode-card-icon">⌕</div>
+                <div class="mode-card-title">Search</div>
+                <div class="mode-card-badge mode-badge-unlimited">Unlimited</div>
+                <div class="mode-card-desc">Find relevant articles from your query</div>
+            </div>
+            <div class="mode-card" id="mode-card-ask">
+                <div class="mode-card-icon">◈</div>
+                <div class="mode-card-title">Ask</div>
+                <div class="mode-card-badge mode-badge-limited" id="ask-count-badge">5/5 today</div>
+                <div class="mode-card-desc">Ask a question and get a grounded answer</div>
+            </div>
+            <button id="dashboard-btn" style="display:none">◎ &nbsp;Dashboard</button>
+        </div>
+
+        <!-- Dashboard overlay -->
+        <div id="dashboard-screen" style="display:none">
+            <div id="dashboard-header">
+                <span id="dashboard-title">◎ &nbsp;Dashboard</span>
+                <button id="dashboard-close-btn">✕</button>
+            </div>
+            <div id="dashboard-body">
+                <div id="dash-stats"></div>
+                <div id="dash-chart-wrap">
+                    <div class="dash-section-label">Activity — last 30 days</div>
+                    <canvas id="dash-chart"></canvas>
+                </div>
+                <div id="dash-log">
+                    <div id="dash-tabs">
+                        <button class="dash-tab-btn active" data-tab="searches">Searches</button>
+                        <button class="dash-tab-btn" data-tab="asks">Questions (Ask)</button>
+                    </div>
+                    <div id="dash-panel-searches" class="dash-panel"></div>
+                    <div id="dash-panel-asks" class="dash-panel" style="display:none"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- App -->
+    <div id="app" style="display:none">
+        <!-- Sidebar -->
+        <aside id="sidebar">
+            <div id="sidebar-header">
+                <div id="sidebar-mode-block">
+                    <div id="sidebar-mode-info">
+                        <span id="sidebar-mode-icon">⌕</span>
+                        <span id="sidebar-mode-name">Search</span>
+                    </div>
+                    <button id="sidebar-switch-btn">Switch</button>
+                </div>
+            </div>
+            <button id="new-chat-btn">+ New chat</button>
+            <div id="chat-list"></div>
+            <div id="sidebar-footer">
+                <button id="sidebar-toggle-collapse" title="Hide sidebar">&#x2039;</button>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main id="main">
+            <header id="topbar">
+                <button id="sidebar-open-btn" title="Show sidebar">&#x2630;</button>
+                <div id="topbar-mode-block">
+                    <span id="topbar-mode-icon">⌕</span>
+                    <span id="topbar-mode-name">Search</span>
+                    <button id="topbar-switch-btn">Switch</button>
+                </div>
+                <div id="topbar-title">New chat</div>
+                <div id="mode-toggle">
+                    <span id="ask-counter" style="display:none"></span>
+                </div>
+                <button id="delete-chat-btn" title="Delete chat">&#x2715;</button>
+            </header>
+            <div id="cooldown-bar" style="display:none">
+                <span id="cooldown-text"></span>
+            </div>
+            <div id="messages" style="display:none"></div>
+            <div id="search-area" style="display:none">
+                <div id="search-results">
+                    <div id="search-welcome">
+                        <div class="search-welcome-icon">⌕</div>
+                        <div class="search-welcome-title">Search</div>
+                        <div class="search-welcome-sub">Describe what you're looking for</div>
+                    </div>
+                    <div id="search-output" style="display:none">
+                        <div id="search-meta" class="search-meta"></div>
+                        <div id="result-list"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="input-area">
+                <div id="input-wrapper">
+                    <textarea id="input" placeholder="···" rows="1"></textarea>
+                    <button id="send-btn" title="Send">
+                        <span id="send-icon-ask" style="display:flex;align-items:center">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        </span>
+                        <span id="send-icon-search" style="display:none;align-items:center">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/static/app.js?v=1"></script>
+</body>
+</html>
