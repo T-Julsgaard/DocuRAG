@@ -1,0 +1,38 @@
+{
+  "totals": { "search": 95, "ask": 35 },
+  "total_tokens": 214300,
+  "daily": [
+    { "day": "2026-06-30", "event_type": "search", "count": 9 },
+    { "day": "2026-06-30", "event_type": "ask", "count": 3 },
+    { "day": "2026-07-01", "event_type": "search", "count": 14 },
+    { "day": "2026-07-01", "event_type": "ask", "count": 5 },
+    { "day": "2026-07-02", "event_type": "search", "count": 11 },
+    { "day": "2026-07-02", "event_type": "ask", "count": 4 },
+    { "day": "2026-07-03", "event_type": "search", "count": 18 },
+    { "day": "2026-07-03", "event_type": "ask", "count": 7 },
+    { "day": "2026-07-04", "event_type": "search", "count": 6 },
+    { "day": "2026-07-04", "event_type": "ask", "count": 2 },
+    { "day": "2026-07-05", "event_type": "search", "count": 21 },
+    { "day": "2026-07-05", "event_type": "ask", "count": 8 },
+    { "day": "2026-07-06", "event_type": "search", "count": 16 },
+    { "day": "2026-07-06", "event_type": "ask", "count": 6 }
+  ],
+  "searches": [
+    { "timestamp": "2026-07-06 14:22:07", "username": "alice", "query": "reset password" },
+    { "timestamp": "2026-07-06 13:58:41", "username": "support01", "query": "enable 2fa authenticator" },
+    { "timestamp": "2026-07-06 11:40:19", "username": "jdoe", "query": "plans and pricing" },
+    { "timestamp": "2026-07-06 09:15:52", "username": "demo", "query": "files not syncing error e-204" },
+    { "timestamp": "2026-07-05 17:03:28", "username": "mkyle", "query": "cancel subscription refund" },
+    { "timestamp": "2026-07-05 15:44:10", "username": "alice", "query": "share folder permissions" },
+    { "timestamp": "2026-07-05 10:29:37", "username": "support01", "query": "install desktop app macos" },
+    { "timestamp": "2026-07-04 16:12:03", "username": "jdoe", "query": "how does nimbus protect my data" }
+  ],
+  "asks": [
+    { "timestamp": "2026-07-06 14:05:11", "username": "alice", "query": "How do I reset my password if the email never arrives?", "response": "If the reset email doesn't arrive, check spam, confirm the address matches the account, and wait up to 5 minutes. If it still doesn't come through, the address may not have a Nimbus account.", "tokens_input": 4820, "tokens_output": 512 },
+    { "timestamp": "2026-07-06 10:51:44", "username": "jdoe", "query": "What's the difference between the Plus and Family plans?", "response": "Plus is 2 TB for one user at $9.99/mo. Family is 6 TB shared across up to 5 people at $19.99/mo, each with a private space. Both include 180-day file history.", "tokens_input": 5140, "tokens_output": 604 },
+    { "timestamp": "2026-07-05 16:20:58", "username": "mkyle", "query": "Can I get a refund after cancelling?", "response": "Refunds are available within the eligibility window described in the refund policy. Cancelling stops future charges; a refund for the current period is handled separately from the billing panel.", "tokens_input": 4610, "tokens_output": 471 },
+    { "timestamp": "2026-07-05 12:37:22", "username": "support01", "query": "A customer lost their 2FA device and has no recovery codes.", "response": "Without recovery codes, the account owner must verify identity by email before support can disable 2FA. This can take up to 2 business days.", "tokens_input": 4980, "tokens_output": 388 },
+    { "timestamp": "2026-07-03 15:09:47", "username": "alice", "query": "Files are stuck at pending — what should I check first?", "response": "Work through the sync checklist: confirm the tray shows Connected, check storage isn't full, then pause and resume sync. Most stuck transfers clear at that step.", "tokens_input": 5320, "tokens_output": 559 },
+    { "timestamp": "2026-07-03 09:41:15", "username": "demo", "query": "How do I share a folder with someone outside my team?", "response": "Share via link or invitation from the folder's share menu, set the permission level, and optionally an expiry date. External recipients open the link without a Nimbus account when link sharing is enabled.", "tokens_input": 4750, "tokens_output": 533 }
+  ]
+}

@@ -120,6 +120,7 @@ def main() -> None:
     (DATA / "search-index.json").write_text(
         json.dumps(build_search_index(), ensure_ascii=False), encoding="utf-8")
     shutil.copy2(PREVIEW_SRC / "demo-answers.json", DATA / "demo-answers.json")
+    shutil.copy2(PREVIEW_SRC / "demo-dashboard.json", DATA / "demo-dashboard.json")
     (DATA / "app-config.json").write_text(
         json.dumps({"app_name": APP_NAME, "tagline": APP_TAGLINE}, ensure_ascii=False),
         encoding="utf-8")

@@ -3,14 +3,15 @@
  *
  * Loaded BEFORE app.js on the GitHub Pages build. It makes the unmodified
  * frontend run with no backend by:
- *   1. seeding dummy credentials so auto-login skips the login screen, and
+ *   1. showing a demo login (any credentials work; "admin" unlocks the
+ *      analytics dashboard), and
  *   2. patching window.fetch to answer the backend routes locally:
- *        /verify-password  -> always OK (no real auth in a public preview)
- *        /app-config       -> branding from data/app-config.json
- *        /ask-status       -> a canned quota
- *        /search           -> client-side keyword scoring (ported from rag.py)
- *        /chat             -> canned demo answers streamed as SSE
- *        /admin/*          -> denied (no dashboard in the preview)
+ *        /verify-password       -> OK; is_admin when username is "admin"
+ *        /app-config            -> branding from data/app-config.json
+ *        /ask-status            -> a canned quota
+ *        /search                -> client-side keyword scoring (ported from rag.py)
+ *        /chat                  -> canned demo answers streamed as SSE
+ *        /admin/dashboard-data  -> sample analytics from data/demo-dashboard.json
  *
  * The search scoring here is a faithful port of app/rag.py + app/search_config.py.
  * Its tuning is exported to data/search-index.json at build time, so the two
@@ -21,22 +22,24 @@
 
   var _fetch = window.fetch.bind(window);
 
-  // Skip the login screen entirely — nothing to protect in a static preview.
-  try {
-    localStorage.setItem('docurag_credentials',
-      JSON.stringify({ username: 'preview', password: 'preview' }));
-  } catch (e) { /* ignore */ }
+  // Username that unlocks the admin analytics dashboard in the demo.
+  var ADMIN_USER = 'admin';
 
   // ---- Data (loaded once, before app.js needs it) ----
   var DATA = null;
   var dataReady = Promise.all([
     _fetch('data/search-index.json').then(function (r) { return r.json(); }),
     _fetch('data/demo-answers.json').then(function (r) { return r.json(); }),
-    _fetch('data/app-config.json').then(function (r) { return r.json(); })
+    _fetch('data/app-config.json').then(function (r) { return r.json(); }),
+    _fetch('data/demo-dashboard.json').then(function (r) { return r.json(); })
   ]).then(function (parts) {
-    DATA = { index: parts[0], demo: parts[1], cfg: parts[2] };
+    DATA = { index: parts[0], demo: parts[1], cfg: parts[2], dashboard: parts[3] };
     return DATA;
   });
+
+  function isAdmin(username) {
+    return (username || '').trim().toLowerCase() === ADMIN_USER;
+  }
 
   // =====================================================================
   // Search engine — port of app/rag.py (search path only)
@@ -249,7 +252,9 @@
     try { path = new URL(url, location.href).pathname; } catch (e) { path = url; }
 
     if (path.endsWith('/verify-password')) {
-      return Promise.resolve(jsonResponse({ ok: true, is_admin: false }));
+      var username = '';
+      try { username = JSON.parse(init && init.body).username || ''; } catch (e) {}
+      return Promise.resolve(jsonResponse({ ok: true, is_admin: isAdmin(username) }));
     }
     if (path.endsWith('/app-config')) {
       return dataReady.then(function () { return jsonResponse(DATA.cfg); });
@@ -273,6 +278,9 @@
         return sseResponse(message);
       });
     }
+    if (path.endsWith('/admin/dashboard-data')) {
+      return dataReady.then(function () { return jsonResponse(DATA.dashboard); });
+    }
     if (path.indexOf('/admin/') !== -1) {
       return Promise.resolve(jsonResponse({ detail: 'Not available in preview' }, 403));
     }
@@ -280,22 +288,38 @@
   };
 
   // =====================================================================
-  // Preview chrome — a badge + hide the (meaningless) logout button
+  // Preview chrome — a "Preview" badge + demo-credentials hint on the login
   // =====================================================================
   function injectChrome() {
     var style = document.createElement('style');
     style.textContent =
-      '#logout-btn{display:none !important;}' +
       '#docurag-preview-badge{position:fixed;left:14px;bottom:12px;z-index:9999;' +
       'font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.12em;' +
       'text-transform:uppercase;color:#c96442;border:1px solid rgba(201,100,66,0.4);' +
       'background:rgba(201,100,66,0.08);padding:4px 9px;border-radius:6px;' +
-      'pointer-events:none;user-select:none;}';
+      'pointer-events:none;user-select:none;}' +
+      '#docurag-demo-hint{margin-top:14px;font-family:"JetBrains Mono",monospace;' +
+      'font-size:11px;line-height:1.6;color:#8a8a8a;text-align:center;}' +
+      '#docurag-demo-hint b{color:#c9c9c9;font-weight:600;}' +
+      '#docurag-demo-hint .accent{color:#c96442;}';
     document.head.appendChild(style);
+
     var badge = document.createElement('div');
     badge.id = 'docurag-preview-badge';
     badge.textContent = 'Preview';
     document.body.appendChild(badge);
+
+    // Demo login hint — any credentials work; "admin" reveals the dashboard.
+    var box = document.getElementById('login-box');
+    if (box) {
+      var hint = document.createElement('div');
+      hint.id = 'docurag-demo-hint';
+      hint.innerHTML =
+        'Demo preview — any login works.<br>' +
+        'User: <b>demo</b> / <b>demo</b> &nbsp;·&nbsp; ' +
+        'Admin: <b class="accent">admin</b> / <b class="accent">admin</b>';
+      box.appendChild(hint);
+    }
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', injectChrome);
